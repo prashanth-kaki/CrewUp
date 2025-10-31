@@ -1,0 +1,13 @@
+# Git files
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# CI/CD files (not needed in the container)
+cloudbuild.yaml
+
+# Environment files
+.env.example
