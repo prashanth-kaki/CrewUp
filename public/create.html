@@ -1,0 +1,12 @@
+<form id="createForm" class="form card">
+  <input id="title" required placeholder="Project title" />
+  <textarea id="description" required placeholder="Describe the project"></textarea>
+  <input id="roles" placeholder="Roles (comma separated)"/>
+  <input id="skills" placeholder="Required skills (comma separated)" />
+  <button type="submit">Create Opportunity</button>
+</form>
+
+<script type="module">
+  import { addOpportunity } from './js/opportunities-create.js';
+  document.getElementById('createForm').addEventListener('submit', addOpportunity);
+</script>

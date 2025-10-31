@@ -1,0 +1,27 @@
+<input id="search" placeholder="Search by title..." />
+<select id="skillFilter"><option value="">All skills</option></select>
+<div id="grid" class="grid"></div>
+
+<script type="module">
+  import { loadOpportunities, renderGrid } from './js/opportunities.js';
+  const grid = document.getElementById('grid');
+  let all = [];
+  loadOpportunities(items => {
+    all = items;
+    renderGrid(grid, items);
+    // populate skill filter
+    const skills = [...new Set(items.flatMap(i => i.requiredSkills || []))].sort();
+    const sel = document.getElementById('skillFilter');
+    sel.innerHTML = '<option value="">All skills</option>' + skills.map(s=>`<option>${s}</option>`).join('');
+  });
+
+  document.getElementById('search').addEventListener('input', e=>{
+    const q = e.target.value.toLowerCase();
+    const skill = document.getElementById('skillFilter').value;
+    const filtered = all.filter(it => it.title.toLowerCase().includes(q) && (skill==='' || (it.requiredSkills||[]).includes(skill)));
+    renderGrid(grid, filtered);
+  });
+  document.getElementById('skillFilter').addEventListener('change', ()=>{
+    document.getElementById('search').dispatchEvent(new Event('input'));
+  });
+</script>
