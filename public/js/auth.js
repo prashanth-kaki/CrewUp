@@ -1,48 +1,68 @@
 import { auth } from "./firebase-init.js";
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  onAuthStateChanged, 
-  signOut 
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-// Sign Up
+function getValue(...ids) {
+  for (const id of ids) {
+    const el = document.getElementById(id);
+    if (el) return el.value.trim();
+  }
+  return "";
+}
+
+export async function signupHandler(e) {
+  e.preventDefault();
+
+  const email = getValue("signupEmail", "email");
+  const password = getValue("signupPassword", "password");
+
+  if (!email || !password) {
+    alert("Please provide an email and password.");
+    return;
+  }
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("Account created successfully!");
+    window.location.href = "login.html";
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+export async function loginHandler(e) {
+  e.preventDefault();
+
+  const email = getValue("loginEmail", "login-email");
+  const password = getValue("loginPassword", "login-password");
+
+  if (!email || !password) {
+    alert("Please provide an email and password.");
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Login successful!");
+    window.location.href = "profile.html";
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
 const signupForm = document.getElementById("signupForm");
 if (signupForm) {
-  signupForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      alert("Account created successfully!");
-      window.location.href = "login.html";
-    } catch (err) {
-      alert(err.message);
-    }
-  });
+  signupForm.addEventListener("submit", signupHandler);
 }
 
-// Login
-const loginForm = document.getElementById("loginForm");
+const loginForm = document.getElementById("loginForm") || document.getElementById("login-form");
 if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Login successful!");
-      window.location.href = "profile.html";
-    } catch (err) {
-      alert(err.message);
-    }
-  });
+  loginForm.addEventListener("submit", loginHandler);
 }
 
-// Auth state listener
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("Logged in:", user.email);
