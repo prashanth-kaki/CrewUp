@@ -1,27 +1,53 @@
-<input id="search" placeholder="Search by title..." />
-<select id="skillFilter"><option value="">All skills</option></select>
-<div id="grid" class="grid"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrewUp | Explore Opportunities</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/config.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><strong>CrewUp</strong></div>
+    <nav>
+      <a href="explore.html">Explore</a> |
+      <a href="create.html">Create</a> |
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
 
-<script type="module">
-  import { loadOpportunities, renderGrid } from './js/opportunities.js';
-  const grid = document.getElementById('grid');
-  let all = [];
-  loadOpportunities(items => {
-    all = items;
-    renderGrid(grid, items);
-    // populate skill filter
-    const skills = [...new Set(items.flatMap(i => i.requiredSkills || []))].sort();
-    const sel = document.getElementById('skillFilter');
-    sel.innerHTML = '<option value="">All skills</option>' + skills.map(s=>`<option>${s}</option>`).join('');
-  });
+  <main class="container">
+    <h2>Explore Opportunities</h2>
+    <input id="search" placeholder="Search by title..." />
+    <select id="skillFilter"><option value="">All skills</option></select>
+    <div id="grid" class="grid"></div>
+  </main>
 
-  document.getElementById('search').addEventListener('input', e=>{
-    const q = e.target.value.toLowerCase();
-    const skill = document.getElementById('skillFilter').value;
-    const filtered = all.filter(it => it.title.toLowerCase().includes(q) && (skill==='' || (it.requiredSkills||[]).includes(skill)));
-    renderGrid(grid, filtered);
-  });
-  document.getElementById('skillFilter').addEventListener('change', ()=>{
-    document.getElementById('search').dispatchEvent(new Event('input'));
-  });
-</script>
+  <footer class="footer">© CrewUp</footer>
+
+  <script type="module">
+    import { loadOpportunities, renderGrid } from './js/opportunities.js';
+    const grid = document.getElementById('grid');
+    let all = [];
+    loadOpportunities(items => {
+      all = items;
+      renderGrid(grid, items);
+      const skills = [...new Set(items.flatMap(i => i.requiredSkills || []))].sort();
+      const sel = document.getElementById('skillFilter');
+      sel.innerHTML = '<option value="">All skills</option>' + skills.map(s=>`<option>${s}</option>`).join('');
+    });
+
+    document.getElementById('search').addEventListener('input', e=>{
+      const q = e.target.value.toLowerCase();
+      const skill = document.getElementById('skillFilter').value;
+      const filtered = all.filter(it => it.title.toLowerCase().includes(q) && (skill==='' || (it.requiredSkills||[]).includes(skill)));
+      renderGrid(grid, filtered);
+    });
+    document.getElementById('skillFilter').addEventListener('change', ()=>{
+      document.getElementById('search').dispatchEvent(new Event('input'));
+    });
+  </script>
+</body>
+</html>

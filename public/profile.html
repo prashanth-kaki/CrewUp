@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrewUp | Profile</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/config.js"></script>
+  <script type="module" src="js/firebase-init.js"></script>
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><strong>CrewUp</strong></div>
+    <nav>
+      <a href="explore.html">Explore</a> |
+      <a href="create.html">Create</a> |
+      <button id="logout-btn">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>My Profile</h2>
+    <div class="card">
+      <h3 id="displayName"></h3>
+      <p id="bio"></p>
+      <button id="editBtn" style="display:none">Edit Profile</button>
+    </div>
+
+    <div class="form card" id="editSection" style="display:none;margin-top:20px">
+      <h3>Edit Profile</h3>
+      <textarea id="bioInput" placeholder="Bio"></textarea>
+      <input id="skillsInput" placeholder="Skills (comma separated)" />
+      <label>Profile Photo</label>
+      <input type="file" id="photoInput" accept="image/*" />
+      <button id="saveProfile">Save</button>
+    </div>
+  </main>
+
+  <footer class="footer">© CrewUp</footer>
+
+  <script type="module">
+    import { auth } from './js/firebase-init.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { loadProfile } from './js/profile.js';
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        loadProfile(user.uid);
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    });
+
+    document.getElementById('editBtn').addEventListener('click', () => {
+      document.getElementById('editSection').style.display = 'flex';
+    });
+  </script>
+</body>
+</html>

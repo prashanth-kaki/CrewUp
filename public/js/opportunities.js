@@ -1,5 +1,5 @@
 // opportunities.js
-import { collection, getDocs, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { collection, getDocs, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
 async function loadOpportunities(renderFn){
   const { db } = window.__crewup;

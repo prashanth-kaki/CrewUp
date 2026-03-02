@@ -7,22 +7,35 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header>
-    <h1>CrewUp</h1>
+  <header class="header container">
+    <div class="brand"><strong>CrewUp</strong></div>
     <nav>
-      <a href="explore.html">Explore</a>
-      <a href="create.html">Create</a>
-      <a href="profile.html">Profile</a>
-      <button id="logout-btn">Logout</button>
+      <a href="explore.html">Explore</a> |
+      <a href="create.html">Create</a> |
+      <a href="login.html">Login</a>
     </nav>
   </header>
 
-  <main id="opportunity-details">
-    <!-- Details loaded dynamically by JS -->
+  <main class="container" id="opportunity-details">
+    <h2 id="title"></h2>
+    <p id="desc"></p>
+
+    <section class="card" style="margin-top:20px">
+      <h3>Request to Join</h3>
+      <textarea id="joinMessage" placeholder="Why do you want to join?"></textarea>
+      <button id="joinBtn">Send Join Request</button>
+    </section>
+
+    <section style="margin-top:20px">
+      <h3>Join Requests</h3>
+      <div id="requests"></div>
+    </section>
   </main>
+
+  <footer class="footer">© CrewUp</footer>
 
   <script src="js/config.js"></script>
   <script type="module" src="js/firebase-init.js"></script>
-  <script type="module" src="js/opportunities.js"></script>
+  <script type="module" src="js/opportunity-detail.js"></script>
 </body>
 </html>

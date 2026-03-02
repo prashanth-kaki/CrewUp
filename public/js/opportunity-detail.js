@@ -1,4 +1,4 @@
-import { doc, getDoc, collection, setDoc, serverTimestamp, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { doc, getDoc, collection, setDoc, serverTimestamp, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
 async function initOpportunity(){
   const params = new URLSearchParams(location.search);
@@ -48,7 +48,7 @@ async function initOpportunity(){
             // basic approach: update array using set with merge
             const oppRef = doc(db,"opportunities",id);
             // simpler: fetch, push, set (for demo). In production use arrayUnion
-            import("https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js").then(module=>{
+            import("https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js").then(module=>{
               const { updateDoc, arrayUnion } = module;
               updateDoc(oppRef, { teamMemberIds: arrayUnion(r.uid) });
             });
