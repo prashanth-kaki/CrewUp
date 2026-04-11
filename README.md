@@ -37,13 +37,19 @@ A React.js Single Page Application scaffolded with Vite.
 
 ## Setup Instructions
 
-### Backend Configuration
-Navigate to the `backend` directory. You will need to create a `.env` file containing the following variables:
-- `MONGO_URI`: Your MongoDB connection string.
-- `JWT_SECRET`: A cryptographic key for generating session tokens.
-- `AWS_ACCESS_KEY_ID`: Your AWS IAM identifier.
-- `AWS_SECRET_ACCESS_KEY`: Your AWS IAM secret password.
-- `S3_BUCKET_NAME`: The target S3 bucket for file uploads.
+### 1. Prerequisites (Cloud Services)
+Before running CrewUp locally, you must provision two external cloud services:
+
+- **MongoDB Atlas**: Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/atlas). Once deployed, retrieve your connection URI string.
+- **AWS S3 (Amazon Web Services)**: Create an S3 Bucket to handle file uploads. You will need to generate IAM User Credentials (Access Key & Secret Key) with `AmazonS3FullAccess` permissions targeting this bucket.
+
+### 2. Backend Configuration
+Navigate to the `backend` directory. Create a `.env` file containing the following variables gathered from your prerequisites:
+- `MONGO_URI`: Your MongoDB Atlas connection string (e.g., `mongodb+srv://<username>:<password>@cluster0...`).
+- `JWT_SECRET`: A cryptographic randomized key for generating session tokens.
+- `AWS_ACCESS_KEY_ID`: Your exact AWS IAM identifier.
+- `AWS_SECRET_ACCESS_KEY`: Your exact AWS IAM secret password.
+- `S3_BUCKET_NAME`: The string name of your target S3 bucket (e.g., `crewup-project-bucket`).
 
 Install dependencies and start the local development server:
 ```bash
